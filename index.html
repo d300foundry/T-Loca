@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>T-Loca 사용자 매뉴얼 · v0.1.2</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet" />
+<style>
+  /* ─── Reset & base ──────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Pretendard Variable', Pretendard, system-ui, -apple-system, sans-serif;
+    background: oklch(98.2% 0.005 75);
+    color: oklch(22% 0.010 70);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ─── Language visibility ─────────────────────────────────── */
+  html[lang="en"] .l-ko { display: none !important; }
+  html[lang="ko"] .l-en { display: none !important; }
+
+  /* ─── Layout ─────────────────────────────────────────────── */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 22px 80px;
+  }
+
+  /* ─── Header ─────────────────────────────────────────────── */
+  .site-header {
+    padding: 48px 0 36px;
+    border-bottom: 1px solid oklch(91.5% 0.007 75);
+    margin-bottom: 40px;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .app-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: oklch(96.2% 0.006 75);
+    border: 1px solid oklch(91.5% 0.007 75);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: oklch(55% 0.007 72);
+  }
+  .app-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: oklch(55% 0.088 42);
+  }
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: oklch(22% 0.010 70);
+    color: oklch(98.2% 0.005 75);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    transition: background 0.15s, transform 0.1s;
+    user-select: none;
+  }
+  .lang-toggle:hover { background: oklch(30% 0.010 70); }
+  .lang-toggle:active { transform: scale(0.97); }
+  .lang-toggle-globe {
+    font-size: 13px;
+    line-height: 1;
+  }
+  h1 {
+    font-size: clamp(26px, 5vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: oklch(22% 0.010 70);
+    margin-bottom: 12px;
+  }
+  .header-desc {
+    font-size: 15px;
+    color: oklch(40% 0.009 70);
+    line-height: 1.6;
+    max-width: 540px;
+    margin-bottom: 0;
+  }
+  .version-tag {
+    margin-top: 16px;
+    font-size: 12px;
+    color: oklch(58% 0.007 72);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  /* ─── TOC ────────────────────────────────────────────────── */
+  .toc {
+    background: oklch(99.6% 0.003 75);
+    border: 1px solid oklch(91.5% 0.007 75);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 52px;
+  }
+  .toc-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    color: oklch(58% 0.007 72);
+    margin-bottom: 14px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .toc li { counter-increment: toc; }
+  .toc a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    text-decoration: none;
+    color: oklch(40% 0.009 70);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: color 0.15s;
+  }
+  .toc a:hover { color: oklch(22% 0.010 70); }
+  .toc a::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: oklch(75% 0.007 72);
+    min-width: 24px;
+  }
+
+  /* ─── Sections ───────────────────────────────────────────── */
+  .section {
+    margin-bottom: 64px;
+    scroll-margin-top: 24px;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: oklch(22% 0.010 70);
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid oklch(94.6% 0.005 75);
+  }
+  p {
+    font-size: 15px;
+    color: oklch(40% 0.009 70);
+    margin-bottom: 16px;
+    line-height: 1.72;
+  }
+  p:last-child { margin-bottom: 0; }
+
+  ul, ol {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  ul li, ol li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    color: oklch(40% 0.009 70);
+    line-height: 1.6;
+  }
+  ul li::before {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: oklch(75% 0.007 72);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ─── Screenshot phone frame ─────────────────────────────── */
+  .screenshot-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 28px;
+  }
+  .phone-frame {
+    position: relative;
+    width: 240px;
+    border-radius: 36px;
+    background: oklch(22% 0.010 70);
+    padding: 10px;
+    box-shadow:
+      0 0 0 1px oklch(35% 0.006 70),
+      0 24px 48px oklch(22% 0.010 70 / 0.18),
+      0 8px 16px oklch(22% 0.010 70 / 0.10);
+  }
+  .phone-frame img {
+    width: 100%;
+    border-radius: 28px;
+    display: block;
+  }
+
+  /* ─── Info / warning boxes ───────────────────────────────── */
+  .callout {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: oklch(99.6% 0.003 75);
+    border: 1px solid oklch(91.5% 0.007 75);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 24px 0;
+  }
+  .callout-icon {
+    font-size: 16px;
+    line-height: 1.7;
+    flex-shrink: 0;
+  }
+  .callout p {
+    font-size: 14px;
+    color: oklch(45% 0.009 70);
+    margin: 0;
+  }
+  .callout-warn {
+    background: oklch(99% 0.012 55);
+    border-color: oklch(86% 0.04 55);
+  }
+  .callout-warn p { color: oklch(42% 0.06 50); }
+
+  /* ─── Feature list cards ─────────────────────────────────── */
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid oklch(91.5% 0.007 75);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .feature-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid oklch(94.6% 0.005 75);
+    font-size: 14px;
+  }
+  .feature-row:last-child { border-bottom: none; }
+  .feature-label {
+    font-weight: 600;
+    color: oklch(30% 0.010 70);
+    min-width: 100px;
+    flex-shrink: 0;
+    line-height: 1.55;
+  }
+  .feature-desc {
+    color: oklch(45% 0.008 70);
+    line-height: 1.55;
+  }
+
+  /* ─── Footer ─────────────────────────────────────────────── */
+  footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid oklch(91.5% 0.007 75);
+    font-size: 12px;
+    color: oklch(65% 0.007 72);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ─── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    .page { padding: 0 16px 60px; }
+    .site-header { padding: 32px 0 24px; }
+    .phone-frame { width: 200px; }
+    .feature-label { min-width: 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <div class="app-badge"><span class="app-badge-dot"></span>T-LOCA</div>
+      <button class="lang-toggle" id="langBtn" onclick="toggleLang()" aria-label="언어 변경 / Change language">
+        <span class="lang-toggle-globe">🌐</span>
+        <span id="langLabel">EN</span>
+      </button>
+    </div>
+    <h1
+      data-ko="사용자 매뉴얼"
+      data-en="User Manual">사용자 매뉴얼</h1>
+    <p class="header-desc l-ko">
+      T-Loca는 사진을 찍기 전에 보관함을 먼저 고르는 카메라 앱입니다.
+      촬영한 사진은 선택한 보관함 안에만 저장되며, 기기 갤러리에는 자동으로 노출되지 않습니다.
+    </p>
+    <p class="header-desc l-en">
+      T-Loca is a camera app where you choose a vault before taking a photo.
+      Photos are saved only inside the selected vault and do not appear in your device gallery automatically.
+    </p>
+    <p class="version-tag"
+      data-ko="버전 0.1.2"
+      data-en="Version 0.1.2">버전 0.1.2</p>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="목차 / Table of Contents">
+    <div class="toc-title"
+      data-ko="목차"
+      data-en="CONTENTS">목차</div>
+    <ol>
+      <li><a href="#start"    data-ko="시작하기"                    data-en="Getting Started">시작하기</a></li>
+      <li><a href="#picker"   data-ko="보관함 선택하기"              data-en="Selecting a Vault">보관함 선택하기</a></li>
+      <li><a href="#vault-edit" data-ko="보관함 만들기와 편집하기"   data-en="Creating &amp; Editing Vaults">보관함 만들기와 편집하기</a></li>
+      <li><a href="#camera"   data-ko="사진 촬영하기"                data-en="Taking Photos">사진 촬영하기</a></li>
+      <li><a href="#gallery"  data-ko="갤러리 보기"                  data-en="Gallery">갤러리 보기</a></li>
+      <li><a href="#detail"   data-ko="사진 상세와 정보 확인하기"    data-en="Photo Detail &amp; Info">사진 상세와 정보 확인하기</a></li>
+      <li><a href="#export"   data-ko="갤러리로 복사하고 공유하기"   data-en="Copy to Gallery &amp; Share">갤러리로 복사하고 공유하기</a></li>
+      <li><a href="#settings" data-ko="설정 사용하기"                data-en="Settings">설정 사용하기</a></li>
+      <li><a href="#caution"  data-ko="데이터 보관 주의사항"         data-en="Data Storage Caution">데이터 보관 주의사항</a></li>
+      <li><a href="#troubleshoot" data-ko="문제 해결"               data-en="Troubleshooting">문제 해결</a></li>
+    </ol>
+  </nav>
+
+  <!-- Intro screenshot -->
+  <div class="screenshot-wrap">
+    <div class="phone-frame">
+      <img
+           class="localized-shot"
+           src="user-manual-assets/v0.1.2-ko-01-onboarding.png"
+           data-ko-src="user-manual-assets/v0.1.2-ko-01-onboarding.png"
+           data-en-src="user-manual-assets/v0.1.2-en-01-onboarding.png"
+           alt="온보딩 화면 / Onboarding screen" />
+    </div>
+  </div>
+
+  <!-- 1. 시작하기 / Getting Started -->
+  <section class="section" id="start">
+    <h2
+      data-ko="시작하기"
+      data-en="Getting Started">시작하기</h2>
+
+    <p class="l-ko">
+      앱을 처음 열면 T-Loca가 사진을 보관함별로 분리하고, 촬영 정보와 선택한 위치 정보를 메타데이터로 남길 수 있으며,
+      사진은 앱 내부에 저장된다는 점을 안내합니다.
+    </p>
+    <p class="l-en">
+      On first launch, T-Loca explains that photos are separated by vault, capture details and optional location can be stored as metadata,
+      and photos stay inside the app until you export them.
+    </p>
+
+    <div class="screenshot-wrap">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-02-permissions.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-02-permissions.png"
+             data-en-src="user-manual-assets/v0.1.2-en-02-permissions.png"
+             alt="권한 안내 화면 / Permission screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">
+      카메라 권한은 촬영에 필요합니다. 위치 권한은 선택 사항이며, 허용하면 촬영 당시 위치가 사진 정보와 EXIF에 기록됩니다.
+      위치 정보는 앱 설명 기준으로 외부로 전송되지 않습니다.
+    </p>
+    <p class="l-en">
+      Camera permission is required for capture. Location permission is optional; if granted, the capture location is recorded in photo info and EXIF.
+      Location data is not transmitted externally.
+    </p>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <p class="l-ko">T-Loca 안의 사진은 앱 내부 저장소에 보관됩니다. 앱을 삭제하거나 앱 데이터를 지우면 복구할 수 없습니다. 중요한 사진은 "갤러리로 복사"를 사용해 기기 갤러리에 따로 보관하세요.</p>
+      <p class="l-en">Photos in T-Loca are stored in app-private storage. They cannot be recovered if you uninstall the app or clear app data. Use <strong>Copy to Gallery</strong> to back up important photos to your device gallery.</p>
+    </div>
+  </section>
+
+  <!-- 2. 보관함 선택하기 / Selecting a Vault -->
+  <section class="section" id="picker">
+    <h2
+      data-ko="보관함 선택하기"
+      data-en="Selecting a Vault">보관함 선택하기</h2>
+
+    <div class="screenshot-wrap">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-03-vault-picker.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-03-vault-picker.png"
+             data-en-src="user-manual-assets/v0.1.2-en-03-vault-picker.png"
+             alt="보관함 선택 화면 / Vault picker screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">
+      T-Loca의 첫 화면은 "어디로 저장할까요?" 화면입니다. 여기에서 사진을 저장할 보관함을 고릅니다.
+      기본 보관함은 다음 3개입니다.
+    </p>
+    <p class="l-en">
+      The first screen is "Where should it go?" — here you choose the vault for your photos.
+      Three default vaults are provided:
+    </p>
+
+    <ul>
+      <li data-ko="영수증" data-en="Receipts">영수증</li>
+      <li data-ko="문서"   data-en="Documents">문서</li>
+      <li data-ko="일상"   data-en="Daily">일상</li>
+    </ul>
+
+    <p class="l-ko">
+      보관함을 누르면 해당 보관함이 선택되고 카메라 화면으로 이동합니다.
+      촬영한 사진은 선택한 보관함에만 저장됩니다.
+      카메라 화면에서 다른 보관함으로 바꾸려면 상단의 보관함 변경 버튼을 누릅니다.
+    </p>
+    <p class="l-en">
+      Tapping a vault selects it and takes you to the camera.
+      Photos are saved only to the selected vault.
+      To switch vaults from the camera, tap the vault chip at the top of the screen.
+    </p>
+  </section>
+
+  <!-- 3. 보관함 만들기와 편집하기 / Creating & Editing Vaults -->
+  <section class="section" id="vault-edit">
+    <h2
+      data-ko="보관함 만들기와 편집하기"
+      data-en="Creating &amp; Editing Vaults">보관함 만들기와 편집하기</h2>
+
+    <div class="screenshot-wrap">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-04-vault-edit.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-04-vault-edit.png"
+             data-en-src="user-manual-assets/v0.1.2-en-04-vault-edit.png"
+             alt="보관함 편집 화면 / Vault edit screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">
+      보관함 선택 화면에서 "보관함 추가"를 눌러 새 보관함을 만들 수 있습니다.
+      빠른 시작 칩을 사용하면 데일리룩, 맛집, 카페, 여행, 운동 같은 목적별 보관함을 빠르게 시작할 수 있습니다.
+    </p>
+    <p class="l-en">
+      Tap <strong>Add Vault</strong> on the vault picker screen to create a new vault.
+      Quick-start chips let you instantly set up purpose-built vaults such as OOTD, Food, Cafe, Travel, Fitness, Pets, Selfie, Challenge, Daily, or Study.
+    </p>
+
+    <p class="l-ko">새 보관함을 만들 때 설정할 수 있는 항목은 다음과 같습니다.</p>
+    <p class="l-en">When creating a vault, you can configure:</p>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <span class="feature-label" data-ko="이름"      data-en="Name">이름</span>
+        <span class="feature-desc  l-ko">보관함을 식별하는 이름입니다. 앞뒤 공백은 정리되고 너무 긴 이름은 짧게 저장됩니다.</span>
+        <span class="feature-desc  l-en">The name that identifies the vault. Leading/trailing spaces are trimmed and overly long names are shortened.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="색상"      data-en="Color">색상</span>
+        <span class="feature-desc  l-ko">카메라 화면 상단 칩과 갤러리 강조 색상으로 사용됩니다.</span>
+        <span class="feature-desc  l-en">Used for the vault chip on the camera screen and as the gallery accent color.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="아이콘"    data-en="Icon">아이콘</span>
+        <span class="feature-desc  l-ko">보관함을 나타내는 아이콘입니다.</span>
+        <span class="feature-desc  l-en">The icon that represents the vault.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="사진 비율" data-en="Aspect Ratio">사진 비율</span>
+        <span class="feature-desc  l-ko">1:1 또는 9:16 중에서 선택합니다. 보관함별로 기억됩니다.</span>
+        <span class="feature-desc  l-en">Choose between 1:1 and 9:16. Remembered per vault.</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">ℹ️</span>
+      <p class="l-ko">보관함은 최대 10개까지 만들 수 있습니다. 마지막 보관함은 삭제할 수 없습니다.</p>
+      <p class="l-en">You can create up to 10 vaults. The last remaining vault cannot be deleted.</p>
+    </div>
+
+    <p class="l-ko">
+      보관함 선택 화면의 "편집"을 누른 뒤 보관함을 선택하면 이름, 색상, 아이콘, 사진 비율을 바꿀 수 있습니다.
+      삭제를 선택하면 해당 보관함의 사진도 함께 삭제됩니다.
+      삭제 전에 사진을 보관하려면 "갤러리로 먼저 복사하기"를 사용하세요.
+    </p>
+    <p class="l-en">
+      Tap <strong>Edit</strong> on the vault picker and select a vault to change its name, color, icon, or aspect ratio.
+      Deleting a vault also deletes all its photos — use <strong>Copy to Gallery first</strong> if you want to keep them.
+    </p>
+  </section>
+
+  <!-- 4. 사진 촬영하기 / Taking Photos -->
+  <section class="section" id="camera">
+    <h2
+      data-ko="사진 촬영하기"
+      data-en="Taking Photos">사진 촬영하기</h2>
+
+    <div class="screenshot-wrap">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-05-camera.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-05-camera.png"
+             data-en-src="user-manual-assets/v0.1.2-en-05-camera.png"
+             alt="카메라 화면 / Camera screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">
+      카메라 화면에서는 선택한 보관함에 바로 사진을 저장합니다.
+      가운데 셔터 버튼을 눌러 촬영합니다. 촬영이 끝나면 "보관함에 저장됨" 안내가 표시됩니다.
+    </p>
+    <p class="l-en">
+      The camera screen saves photos directly to the selected vault.
+      Tap the shutter button in the center to capture. A "Saved to vault" toast confirms the save.
+    </p>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <span class="feature-label" data-ko="플래시"      data-en="Flash">플래시</span>
+        <span class="feature-desc  l-ko">자동, 켜짐, 꺼짐 순서로 전환합니다.</span>
+        <span class="feature-desc  l-en">Cycles through Auto, On, and Off.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="카메라 전환" data-en="Flip Camera">카메라 전환</span>
+        <span class="feature-desc  l-ko">후면과 전면 카메라를 바꿉니다.</span>
+        <span class="feature-desc  l-en">Switches between rear and front cameras.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="촬영 비율"   data-en="Aspect Ratio">촬영 비율</span>
+        <span class="feature-desc  l-ko">1:1 또는 9:16 비율로 촬영합니다. 이 설정은 보관함별로 저장됩니다.</span>
+        <span class="feature-desc  l-en">Shoot at 1:1 or 9:16. This setting is saved per vault.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="위치 기록"   data-en="Location">위치 기록</span>
+        <span class="feature-desc  l-ko">위치 권한과 설정이 켜져 있으면 촬영 위치를 기록합니다.</span>
+        <span class="feature-desc  l-en">Records capture location when permission and the setting are both on.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="탭 포커스"   data-en="Tap to Focus">탭 포커스</span>
+        <span class="feature-desc  l-ko">화면의 원하는 지점을 눌러 초점과 노출을 맞춥니다.</span>
+        <span class="feature-desc  l-en">Tap anywhere on the viewfinder to set focus and exposure.</span>
+      </div>
+    </div>
+
+    <p class="l-ko">
+      위치가 꺼져 있거나 권한이 없으면 사진은 위치 없이 저장됩니다.
+      저장 공간이 부족하면 촬영 전에 저장 공간 부족 안내가 표시될 수 있습니다.
+    </p>
+    <p class="l-en">
+      If location is off or permission is denied, photos are saved without location data.
+      A low-storage warning may appear before capture when disk space is running low.
+    </p>
+  </section>
+
+  <!-- 5. 갤러리 보기 / Gallery -->
+  <section class="section" id="gallery">
+    <h2
+      data-ko="갤러리 보기"
+      data-en="Gallery">갤러리 보기</h2>
+
+    <div class="screenshot-wrap">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-06-gallery.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-06-gallery.png"
+             data-en-src="user-manual-assets/v0.1.2-en-06-gallery.png"
+             alt="갤러리 화면 / Gallery screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">
+      갤러리는 현재 선택한 보관함의 사진만 보여줍니다.
+      사진은 날짜별로 묶여 표시되며, 상단에서 전체 사진 수와 오늘 촬영한 사진 수를 확인할 수 있습니다.
+    </p>
+    <p class="l-en">
+      The gallery shows only photos from the currently selected vault.
+      Photos are grouped by date; the header shows total count and today's count.
+    </p>
+
+    <p class="l-ko">갤러리에서 할 수 있는 작업은 다음과 같습니다.</p>
+    <p class="l-en">From the gallery you can:</p>
+
+    <ul>
+      <li data-ko="사진을 눌러 상세 화면 열기"     data-en="Tap a photo to open the detail screen">사진을 눌러 상세 화면 열기</li>
+      <li data-ko="카메라로 돌아가 추가 촬영"       data-en="Return to the camera for more shots">카메라로 돌아가 추가 촬영</li>
+      <li data-ko="보관함 변경"                     data-en="Switch to a different vault">보관함 변경</li>
+      <li data-ko="설정 화면 열기"                  data-en="Open Settings">설정 화면 열기</li>
+    </ul>
+
+    <p class="l-ko">선택한 보관함에 사진이 없으면 빈 상태 안내가 표시됩니다.</p>
+    <p class="l-en">If the selected vault has no photos, an empty state prompt is shown.</p>
+  </section>
+
+  <!-- 6. 사진 상세와 정보 / Photo Detail & Info -->
+  <section class="section" id="detail">
+    <h2
+      data-ko="사진 상세와 정보 확인하기"
+      data-en="Photo Detail &amp; Info">사진 상세와 정보 확인하기</h2>
+
+    <div class="screenshot-wrap" style="gap: 20px; flex-wrap: wrap;">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-07-photo-detail.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-07-photo-detail.png"
+             data-en-src="user-manual-assets/v0.1.2-en-07-photo-detail.png"
+             alt="사진 상세 화면 / Photo detail screen" />
+      </div>
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-08-photo-info.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-08-photo-info.png"
+             data-en-src="user-manual-assets/v0.1.2-en-08-photo-info.png"
+             alt="사진 정보 화면 / Photo info screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">사진 상세 화면에서는 사진을 크게 확인하고 개별 작업을 실행할 수 있습니다.</p>
+    <p class="l-en">The photo detail screen lets you view a photo full-size and take individual actions.</p>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <span class="feature-label" data-ko="삭제"          data-en="Delete">삭제</span>
+        <span class="feature-desc  l-ko">사진을 앱 내부 저장소와 목록에서 삭제합니다. 삭제한 사진은 복구할 수 없습니다.</span>
+        <span class="feature-desc  l-en">Removes the photo from app storage and the list. Deleted photos cannot be recovered.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="갤러리로 복사" data-en="Copy to Gallery">갤러리로 복사</span>
+        <span class="feature-desc  l-ko">사진을 기기 갤러리로 복사합니다.</span>
+        <span class="feature-desc  l-en">Copies the photo to the device gallery.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="정보"          data-en="Info">정보</span>
+        <span class="feature-desc  l-ko">촬영 시각, 위치, 파일 정보, 해시 등 세부 정보를 확인합니다.</span>
+        <span class="feature-desc  l-en">Shows capture time, location, file details, and integrity hash.</span>
+      </div>
+    </div>
+
+    <p class="l-ko">사진 정보 화면에는 다음 항목이 표시됩니다.</p>
+    <p class="l-en">The photo info screen displays:</p>
+
+    <ul>
+      <li data-ko="촬영 날짜와 시간"          data-en="Capture date and time">촬영 날짜와 시간</li>
+      <li data-ko="표준 시간대"               data-en="Time zone">표준 시간대</li>
+      <li data-ko="좌표와 주소"               data-en="Coordinates and address">좌표와 주소</li>
+      <li data-ko="파일명과 내부 경로"         data-en="Filename and internal path">파일명과 내부 경로</li>
+      <li data-ko="파일 크기, 해상도, 형식"    data-en="File size, resolution, and format">파일 크기, 해상도, 형식</li>
+      <li data-ko="SHA-256 해시와 계산 시각"   data-en="SHA-256 hash and computation time">SHA-256 해시와 계산 시각</li>
+    </ul>
+
+    <p class="l-ko">위치 권한이 꺼져 있던 사진은 위치 정보가 없다고 표시됩니다.</p>
+    <p class="l-en">Photos captured without location permission show "No location" in the info screen.</p>
+  </section>
+
+  <!-- 7. 갤러리로 복사하고 공유하기 / Copy to Gallery & Share -->
+  <section class="section" id="export">
+    <h2
+      data-ko="갤러리로 복사하고 공유하기"
+      data-en="Copy to Gallery &amp; Share">갤러리로 복사하고 공유하기</h2>
+
+    <div class="screenshot-wrap">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-09-export.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-09-export.png"
+             data-en-src="user-manual-assets/v0.1.2-en-09-export.png"
+             alt="갤러리로 복사 화면 / Export screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">
+      T-Loca의 사진은 기본적으로 앱 내부에만 있습니다.
+      다른 앱에서 보거나 클라우드 백업 대상에 포함하려면 "갤러리로 복사"를 실행해야 합니다.
+      복사된 사진은 <code>DCIM/T-Loca</code> 위치에 저장됩니다.
+    </p>
+    <p class="l-en">
+      T-Loca photos live only inside the app by default.
+      To view them in other apps or include them in cloud backup, run <strong>Copy to Gallery</strong>.
+      Exported photos are saved to <code>DCIM/T-Loca</code>.
+    </p>
+
+    <p class="l-ko">복사할 때 선택할 수 있는 이미지 스타일은 다음과 같습니다.</p>
+    <p class="l-en">Choose an image style when copying:</p>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <span class="feature-label" data-ko="사진만" data-en="Plain">사진만</span>
+        <span class="feature-desc  l-ko">메타데이터 없이 깨끗한 원본 형태로 복사합니다.</span>
+        <span class="feature-desc  l-en">Copies the clean original with no added overlays.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="스탬프" data-en="Stamp">스탬프</span>
+        <span class="feature-desc  l-ko">시간과 위치를 사진 위에 인쇄합니다.</span>
+        <span class="feature-desc  l-en">Prints time and location on top of the photo.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="보더"   data-en="Border">보더</span>
+        <span class="feature-desc  l-ko">여백에 메타데이터를 인쇄합니다.</span>
+        <span class="feature-desc  l-en">Prints metadata in the surrounding border area.</span>
+      </div>
+    </div>
+
+    <p class="l-ko">
+      상세 화면에서 개별 사진을 공유할 수도 있습니다.
+      인증 정보 포함 옵션을 켜면 SHA-256 해시, 위치, 시간 정보가 포함된 배너를 추가합니다.
+    </p>
+    <p class="l-en">
+      You can also share individual photos from the detail screen.
+      Enabling the integrity option adds a banner with the SHA-256 hash, location, and timestamp.
+    </p>
+
+    <div class="callout">
+      <span class="callout-icon">ℹ️</span>
+      <p class="l-ko">복사한 사진은 기기 갤러리에 보이고, 기기의 클라우드 백업 설정에 따라 백업될 수 있습니다.</p>
+      <p class="l-en">Copied photos appear in the device gallery and may be included in cloud backup depending on your device settings.</p>
+    </div>
+  </section>
+
+  <!-- 8. 설정 / Settings -->
+  <section class="section" id="settings">
+    <h2
+      data-ko="설정 사용하기"
+      data-en="Settings">설정 사용하기</h2>
+
+    <div class="screenshot-wrap">
+      <div class="phone-frame">
+        <img
+             class="localized-shot"
+             src="user-manual-assets/v0.1.2-ko-10-settings.png"
+             data-ko-src="user-manual-assets/v0.1.2-ko-10-settings.png"
+             data-en-src="user-manual-assets/v0.1.2-en-10-settings.png"
+             alt="설정 화면 / Settings screen" />
+      </div>
+    </div>
+
+    <p class="l-ko">
+      설정 화면에서는 저장소 사용량과 보관함별 사진 수를 확인하고,
+      촬영 및 데이터 관련 설정을 관리합니다.
+    </p>
+    <p class="l-en">
+      The Settings screen shows storage usage and per-vault photo counts,
+      and lets you manage capture and data settings.
+    </p>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <span class="feature-label" data-ko="타임스탬프 기록"      data-en="Record Timestamp">타임스탬프 기록</span>
+        <span class="feature-desc  l-ko">촬영 시각을 EXIF에 저장합니다.</span>
+        <span class="feature-desc  l-en">Saves capture time in EXIF.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="위치 기록"            data-en="Record Location">위치 기록</span>
+        <span class="feature-desc  l-ko">위치를 EXIF에 저장합니다. 위치 권한이 필요합니다.</span>
+        <span class="feature-desc  l-en">Saves location in EXIF. Requires location permission.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="내부 저장소 사용량"   data-en="Internal Storage">내부 저장소 사용량</span>
+        <span class="feature-desc  l-ko">전체 사진 수와 사용량을 확인합니다.</span>
+        <span class="feature-desc  l-en">View total photo count and storage used.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="보관함별 갤러리 복사" data-en="Copy Vault to Gallery">보관함별 갤러리 복사</span>
+        <span class="feature-desc  l-ko">특정 보관함의 사진을 기기 갤러리로 복사합니다.</span>
+        <span class="feature-desc  l-en">Copy all photos from a specific vault to the device gallery.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="보관함별 모두 삭제"   data-en="Delete Vault Photos">보관함별 모두 삭제</span>
+        <span class="feature-desc  l-ko">특정 보관함의 사진을 삭제합니다.</span>
+        <span class="feature-desc  l-en">Delete all photos in a specific vault.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="모두 갤러리로 복사"   data-en="Copy All to Gallery">모두 갤러리로 복사</span>
+        <span class="feature-desc  l-ko">모든 사진을 기기 갤러리로 복사합니다.</span>
+        <span class="feature-desc  l-en">Copy every photo in the app to the device gallery.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="모든 데이터 삭제"     data-en="Delete All Data">모든 데이터 삭제</span>
+        <span class="feature-desc  l-ko">앱 내부의 모든 사진을 삭제합니다.</span>
+        <span class="feature-desc  l-en">Permanently deletes every photo stored inside the app.</span>
+      </div>
+    </div>
+
+    <p class="l-ko">
+      자동 백업 항목은 현재 꺼짐 또는 추후 지원 예정 상태로 표시됩니다.
+      자동 백업이 필요하면 사진을 기기 갤러리로 복사한 뒤 기기나 클라우드 백업 설정을 사용하세요.
+    </p>
+    <p class="l-en">
+      The auto-backup option is currently off or listed as coming soon.
+      For backup, copy photos to the device gallery and rely on your device or cloud backup settings.
+    </p>
+  </section>
+
+  <!-- 9. 데이터 보관 주의사항 / Data Storage Caution -->
+  <section class="section" id="caution">
+    <h2
+      data-ko="데이터 보관 주의사항"
+      data-en="Data Storage Caution">데이터 보관 주의사항</h2>
+
+    <p class="l-ko">T-Loca의 기본 저장 원칙은 "앱 내부 저장"입니다.</p>
+    <p class="l-en">T-Loca's core storage principle is app-private storage.</p>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <p class="l-ko">
+        앱 내부 사진은 기기 갤러리에 자동으로 나타나지 않습니다.<br>
+        앱을 삭제하면 앱 내부 사진도 사라질 수 있습니다.<br>
+        Android 설정에서 앱 데이터를 지우면 사진이 모두 삭제될 수 있습니다.<br>
+        보관함 삭제와 사진 삭제는 되돌릴 수 없습니다.<br>
+        <strong>중요한 사진은 먼저 갤러리로 복사하세요.</strong>
+      </p>
+      <p class="l-en">
+        App-private photos do not appear in your device gallery automatically.<br>
+        Uninstalling the app may delete all photos stored inside it.<br>
+        Clearing app data in Android Settings will delete all photos.<br>
+        Deleting a vault or photo is irreversible.<br>
+        <strong>Copy important photos to your gallery before deleting anything.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- 10. 문제 해결 / Troubleshooting -->
+  <section class="section" id="troubleshoot">
+    <h2
+      data-ko="문제 해결"
+      data-en="Troubleshooting">문제 해결</h2>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <span class="feature-label" data-ko="카메라가 열리지 않음"    data-en="Camera won't open">카메라가 열리지 않음</span>
+        <span class="feature-desc  l-ko">Android 앱 설정에서 T-Loca의 카메라 권한을 허용했는지 확인하세요.</span>
+        <span class="feature-desc  l-en">Check that T-Loca has Camera permission in Android app settings.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="위치가 기록되지 않음"    data-en="Location not recorded">위치가 기록되지 않음</span>
+        <span class="feature-desc  l-ko">위치 권한이 허용되어 있는지, 설정의 "위치 기록"이 켜져 있는지 확인하세요. 이미 촬영한 사진에는 나중에 위치가 자동으로 추가되지 않습니다.</span>
+        <span class="feature-desc  l-en">Verify that location permission is granted and "Record Location" is on in Settings. Location cannot be added retroactively to already-captured photos.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="갤러리에 사진이 안 보임" data-en="Photos not in gallery">갤러리에 사진이 안 보임</span>
+        <span class="feature-desc  l-ko">아직 갤러리로 복사하지 않은 상태일 수 있습니다. 사진 상세, 보관함 삭제 안내, 또는 설정 화면에서 "갤러리로 복사"를 실행하세요.</span>
+        <span class="feature-desc  l-en">You may not have copied them yet. Use Copy to Gallery from the photo detail, the vault deletion prompt, or Settings.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="갤러리 복사 실패"        data-en="Copy to gallery failed">갤러리 복사 실패</span>
+        <span class="feature-desc  l-ko">저장 공간과 권한 상태를 확인한 뒤 다시 시도하세요.</span>
+        <span class="feature-desc  l-en">Check available storage and permissions, then try again.</span>
+      </div>
+      <div class="feature-row">
+        <span class="feature-label" data-ko="저장 공간 부족 안내"     data-en="Low storage warning">저장 공간 부족 안내</span>
+        <span class="feature-desc  l-ko">기기 저장 공간을 확보한 뒤 촬영하세요.</span>
+        <span class="feature-desc  l-en">Free up device storage before capturing.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span data-ko="T-Loca · 사용자 매뉴얼" data-en="T-Loca · User Manual">T-Loca · 사용자 매뉴얼</span>
+    <span data-ko="버전 0.1.2" data-en="Version 0.1.2">버전 0.1.2</span>
+  </footer>
+
+</div>
+
+<script>
+  var currentLang = 'ko';
+
+  function applyLang(lang) {
+    document.documentElement.lang = lang;
+    document.title = lang === 'ko'
+      ? 'T-Loca 사용자 매뉴얼 · v0.1.2'
+      : 'T-Loca User Manual · v0.1.2';
+    document.getElementById('langLabel').textContent = lang === 'ko' ? 'EN' : '한국어';
+
+    document.querySelectorAll('[data-ko][data-en]').forEach(function(el) {
+      el.innerHTML = lang === 'ko' ? el.dataset.ko : el.dataset.en;
+    });
+
+    document.querySelectorAll('.localized-shot').forEach(function(img) {
+      var localizedSrc = img.dataset[lang + 'Src'];
+      if (localizedSrc) {
+        img.src = localizedSrc;
+      }
+    });
+
+    // Keep URL in sync so the page is shareable / deep-linkable
+    try {
+      var url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      history.replaceState(null, '', url.toString());
+    } catch (e) {}
+  }
+
+  function toggleLang() {
+    currentLang = currentLang === 'ko' ? 'en' : 'ko';
+    applyLang(currentLang);
+  }
+
+  // Priority: ?lang= URL param → browser language
+  (function() {
+    var urlLang = null;
+    try {
+      urlLang = new URL(window.location.href).searchParams.get('lang');
+    } catch (e) {}
+
+    if (urlLang === 'ko' || urlLang === 'en') {
+      currentLang = urlLang;
+    } else {
+      currentLang = 'en';
+    }
+    applyLang(currentLang);
+  })();
+</script>
+</body>
+</html>
